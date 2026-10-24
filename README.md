@@ -2,6 +2,8 @@
 
 Ein Pong-Klon in C++17 mit [raylib](https://www.raylib.com/). Das ganze Spiel steckt in `main.cpp`.
 
+Dies ist mein erstes Vibe-Coded Game: Es ist im Gespräch mit [Claude Code](https://claude.com/claude-code) entstanden.
+
 ## Features
 
 - Einzelspieler gegen den Computer oder Zwei-Spieler-Modus

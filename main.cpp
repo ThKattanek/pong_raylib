@@ -84,9 +84,19 @@ static void ToggleFullscreenMode() {
     }
 }
 
-// Rekord (längster Ballwechsel) liegt neben der Programmdatei.
+// Rekord (längster Ballwechsel). Unter Windows neben der EXE, unter Linux im Benutzerverzeichnis
+// (das Programmverzeichnis ist z.B. in einem AppImage schreibgeschützt).
 static std::string HighscorePath() {
+#ifdef _WIN32
     return std::string(GetApplicationDirectory()) + "highscore.txt";
+#else
+    const char *xdg = std::getenv("XDG_DATA_HOME");
+    const char *home = std::getenv("HOME");
+    std::string dir = (xdg && *xdg) ? std::string(xdg) : (home ? std::string(home) + "/.local/share" : ".");
+    dir += "/pong";
+    MakeDirectory(dir.c_str());
+    return dir + "/highscore.txt";
+#endif
 }
 
 static int LoadHighscore() {

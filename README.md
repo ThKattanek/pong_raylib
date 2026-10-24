@@ -67,9 +67,19 @@ Hinweise:
 - Für 32-Bit Windows entsprechend das Ziel `i686-w64-mingw32.static` verwenden.
 - Der Ordner `build-win` darf nicht mit dem Linux-Ordner `build` verwechselt oder gemischt werden.
 
+## Linux-AppImage bauen
+
+Benötigt wird [appimagetool](https://github.com/AppImage/appimagetool) (im `PATH` oder über die Variable `APPIMAGETOOL`):
+
+```
+./packaging/build-appimage.sh
+```
+
+Das Ergebnis ist `build/Pong-x86_64.AppImage`. Es enthält nur das Spiel; OpenGL- und X11-Bibliotheken kommen vom System. Es wurde auf einem aktuellen System gebaut und läuft daher nur auf Distributionen mit ähnlich neuer glibc.
+
 ## Highscore
 
-Der Rekord liegt als einfache Zahl in `highscore.txt` im Ordner der ausführbaren Datei (`build/` bzw. neben der `pong.exe`). Zum Zurücksetzen die Datei löschen.
+Der Rekord liegt als einfache Zahl in einer Textdatei. Unter Windows ist das `highscore.txt` neben der `pong.exe`, unter Linux `~/.local/share/pong/highscore.txt` (bzw. unter `$XDG_DATA_HOME`). Zum Zurücksetzen die Datei löschen.
 
 ## Lizenz
 

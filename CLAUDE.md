@@ -16,6 +16,8 @@ cmake --build build -j
 
 Windows EXE (cross-compiled on Linux with MXE in `~/mxe`, static triplet): `PATH=$HOME/mxe/usr/bin:$PATH x86_64-w64-mingw32.static-cmake -S . -B build-win -DCMAKE_BUILD_TYPE=Release && cmake --build build-win -j` produces `build-win/pong.exe`. It links statically and is built as a GUI app (no console window).
 
+Linux AppImage: `APPIMAGETOOL=/path/to/appimagetool ./packaging/build-appimage.sh` produces `build/Pong-x86_64.AppImage` (desktop file and icon are in `packaging/`).
+
 `CMakeLists.txt` first tries `find_package(raylib 5.0)`. If raylib is not installed, it downloads raylib 5.5 via FetchContent, so the first configure needs network access and takes a while. The tag is 5.5 on purpose: raylib 5.0 fails to configure with current CMake (`cmake_minimum_required` < 3.5 was removed).
 
 ## Architecture (`main.cpp`)
@@ -26,5 +28,5 @@ Windows EXE (cross-compiled on Linux with MXE in `~/mxe`, static triplet): `PATH
 - The AI controls the right paddle in single-player mode. It tracks the ball's y position at 80 % of the player speed and only moves while the ball is travelling toward it.
 - All drawing goes into an 800x600 `RenderTexture` (`canvas`), which is then scaled with letterboxing to the actual window. Game logic always uses the fixed 800x600 coordinates. Fullscreen (F11 / Alt+Enter) is true fullscreen via `ToggleFullscreenMode()`: the window is first resized to the monitor size, because raylib's `ToggleFullscreen()` requests the current window size as resolution. Borderless windowed mode was tried and does not cover KDE panels. `SetExitKey(KEY_NULL)` is set so that ESC first leaves fullscreen and only then quits.
 - The background is a plasma effect. `UpdatePlasma()` fills an 80x60 pixel buffer every frame, uploads it with `UpdateTexture`, and it is drawn stretched with bilinear filtering. The colors are deliberately dark and low-contrast so the white game objects stay readable. Keep it that way when changing the palette.
-- The highscore is the longest rally (consecutive paddle hits without a point), in both game modes. It is stored as a plain integer in `highscore.txt` next to the executable (`GetApplicationDirectory()`, i.e. `build/`), loaded at startup, and written when a point is scored (if a new record was set) and on exit.
+- The highscore is the longest rally (consecutive paddle hits without a point), in both game modes. It is a plain integer in a text file, loaded at startup and written when a point is scored (if a new record was set) and on exit. On Windows it is `highscore.txt` next to the EXE; on Linux it is `~/.local/share/pong/highscore.txt` (`$XDG_DATA_HOME`), because the application directory is read-only inside an AppImage.
 - Sound is generated procedurally. `MakeTone()` builds a square-wave `Wave` in memory and converts it with `LoadSoundFromWave`. Do not add audio files. All `Sound` objects are created at the start of `main()` and unloaded before `CloseAudioDevice()`.

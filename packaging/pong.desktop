@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Pong
+Comment=Pong mit raylib
+Exec=pong
+Icon=pong
+Categories=Game;ArcadeGame;
+Terminal=false

@@ -68,3 +68,7 @@ Hinweise:
 ## Highscore
 
 Der Rekord liegt als einfache Zahl in `highscore.txt` im Ordner der ausführbaren Datei (`build/` bzw. neben der `pong.exe`). Zum Zurücksetzen die Datei löschen.
+
+## Lizenz
+
+MIT, siehe [LICENSE](LICENSE). raylib steht unter der zlib-Lizenz.
